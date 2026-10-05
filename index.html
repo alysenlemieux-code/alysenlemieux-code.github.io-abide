@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ABIDE">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FAF7F2">
+<title>ABIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --linen: #FAF7F2;
+    --brown: #5B4A3E;
+    --taupe: #8B7765;
+    --sage: #A8B39C;
+    --rose: #B78C8C;
+    --clay: #C9B4A5;
+    --line: #D8C8B7;
+    --pale: #EEF0E8;
+    --serif: "Cormorant Garamond", Palatino, "Palatino Linotype", Georgia, serif;
+    --body: Lora, Georgia, "Iowan Old Style", serif;
+    --hand: Caveat, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--linen);
+    color: var(--brown);
+  }
+  body {
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.65;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  ::selection { background: var(--pale); color: var(--brown); }
+  :focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 3px;
+  }
+  html { color-scheme: light; }
+  .app {
+    --pad: 22px;
+    width: min(720px, 100%);
+    margin: 0 auto;
+    padding: 28px var(--pad) 28px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  .mast {
+    display: grid;
+    grid-template-columns: 64px 1fr 64px;
+    align-items: end;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .bot { width: 64px; height: 92px; display: block; }
+  .mast-text { text-align: center; padding-bottom: 4px; }
+  .eyebrow {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--taupe);
+  }
+  h1 {
+    margin: 8px 0 0;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--brown);
+  }
+  .rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px auto 0;
+    max-width: 220px;
+  }
+  .rule i {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    display: block;
+  }
+  .rule svg { display: block; flex: 0 0 auto; }
+  main { flex: 1; padding: 18px 0 12px; }
+  .prose { max-width: 38rem; }
+  .prose p { margin: 0 0 1rem; }
+  .quiet { color: var(--taupe); }
+  .small {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--taupe);
+  }
+  .scripture {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.25;
+    margin: 8px 0 0;
+    color: var(--brown);
+  }
+  .cite {
+    margin: 6px 0 0;
+    font-family: var(--serif);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--taupe);
+  }
+  .dayblock { margin: 18px 0 8px; }
+  .daynum {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 84px;
+    line-height: 0.85;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .daynum span {
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .dateline {
+    margin: 10px 0 0;
+    color: var(--taupe);
+    font-size: 15.5px;
+  }
+  .invite {
+    font-style: italic;
+    color: var(--brown);
+    margin: 14px 0 0;
+  }
+  .hand {
+    font-family: var(--hand);
+    font-weight: 500;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 1.25;
+    color: var(--rose);
+    margin: 18px 0 0;
+  }
+  .hand.return {
+    text-align: center;
+    font-size: 42px;
+    margin: 28px 0 8px;
+  }
+  .hand.footer-line {
+    font-size: 26px;
+    text-align: center;
+    display: block;
+    margin: 28px 0 8px;
+    color: var(--taupe);
+  }
+  .panel {
+    margin-top: 28px;
+    padding-top: 8px;
+  }
+  label.date-label {
+    display: block;
+    font-family: var(--serif);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  input[type="date"] {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 2px;
+    min-height: 48px;
+    width: min(100%, 280px);
+    font-size: 16px;
+    color: var(--brown);
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+  }
+  .text-btn {
+    background: none;
+    border: none;
+    padding: 12px 0;
+    min-height: 48px;
+    color: var(--taupe);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--line);
+  }
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .stepper p { margin: 0; flex: 1; }
+  .icon-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--brown);
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1;
+    padding: 0;
+  }
+  .icon-btn:disabled { opacity: 0.35; }
+  .kicker {
+    display: block;
+    font-family: var(--serif);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 4px;
+  }
+  .field { display: block; margin: 22px 0; }
+  .field .name {
+    display: block;
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    resize: none;
+    overflow: hidden;
+    min-height: 84px;
+    padding: 8px 2px 12px;
+    font-size: 16px;
+    line-height: 1.65;
+    border-radius: 0;
+    color: var(--brown);
+    caret-color: var(--rose);
+  }
+  .body-care {
+    margin: 26px 0 8px;
+  }
+  .body-care h2, .group h2, .subhead {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+  .marks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (min-width: 560px) {
+    .marks { grid-template-columns: repeat(4, 1fr); }
+  }
+  .mark, .dotbtn {
+    min-height: 52px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 4px;
+    text-align: left;
+    color: var(--brown);
+  }
+  .bubble {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.25px var(--sage);
+    background: transparent;
+    flex: 0 0 auto;
+  }
+  .mark[aria-pressed="true"] .bubble,
+  .dotbtn[aria-pressed="true"] .bubble {
+    background: var(--sage);
+    box-shadow: none;
+  }
+  .week-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 18px;
+  }
+  .week-head p {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+  }
+  .group { margin: 18px 0 8px; }
+  .group h2 {
+    background: var(--pale);
+    padding: 8px 12px;
+    margin: 0 0 2px;
+  }
+  .rhythm {
+    display: grid;
+    grid-template-columns: minmax(108px, 150px) 1fr;
+    gap: 4px 8px;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .rhythm .rname {
+    font-size: 15px;
+    line-height: 1.3;
+    padding: 6px 0;
+  }
+  .days {
+    display: grid;
+    gap: 2px;
+  }
+  .colcap {
+    display: grid;
+    margin: 0 0 4px 0;
+    color: var(--taupe);
+    font-family: var(--serif);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+  .colcap span, .dotbtn {
+    text-align: center;
+    justify-content: center;
+  }
+  .colcap .daycap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    line-height: 1.15;
+  }
+  .colcap {
+    grid-column: 2;
+    margin-left: 0;
+  }
+  .headrow {
+    display: grid;
+    grid-template-columns: minmax(108px, 150px) 1fr;
+    gap: 8px;
+    align-items: end;
+  }
+  .dotbtn {
+    min-height: 48px;
+    padding: 6px 0;
+    flex-direction: column;
+    gap: 0;
+  }
+  .linkish {
+    background: none;
+    border: none;
+    color: var(--taupe);
+    min-height: 48px;
+    padding: 8px 0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--line);
+  }
+  nav {
+    position: sticky;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--linen);
+    border-top: 1px solid var(--line);
+    margin: 12px calc(var(--pad) * -1) 0;
+    padding: 4px 6px calc(12px + env(safe-area-inset-bottom));
+  }
+  nav button {
+    min-height: 52px;
+    background: none;
+    border: none;
+    font-family: var(--serif);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    position: relative;
+    padding: 8px 2px 14px;
+  }
+  nav button[aria-current="page"] { color: var(--brown); }
+  nav button[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--sage);
+    transform: translateX(-50%);
+  }
+  .note { margin-top: 8px; }
+  @media (max-width: 420px) {
+    .app { --pad: 14px; }
+    .daynum { font-size: 72px; }
+    .rhythm, .headrow { grid-template-columns: 1fr; }
+    .colcap { grid-column: 1; }
+    .mast { grid-template-columns: 48px 1fr 48px; }
+    .bot { width: 48px; height: 72px; }
+    h1 { font-size: 13px; letter-spacing: 0.14em; }
+    .eyebrow { letter-spacing: 0.18em; }
+    nav button { letter-spacing: 0.08em; font-size: 12px; }
+  }
+  @media (max-width: 720px) {
+    nav { grid-template-columns: repeat(3, 1fr); }
+    nav button { letter-spacing: 0.14em; font-size: 13px; }
+  }
+  textarea.short { min-height: 52px; }
+  .quiet-day {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 8px 0 0;
+    letter-spacing: 0.03em;
+  }
+  .season {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.45;
+    margin: 18px 0 0;
+  }
+  .cover { text-align: center; padding: 8px 8px 26px; }
+  .cover-word {
+    font-family: var(--serif);
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    font-size: 40px;
+    margin: 10px 0 8px;
+  }
+  .cover-line {
+    font-family: var(--serif);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: var(--taupe);
+    margin: 4px 0;
+  }
+  .day-sheet, .stones-sheet {
+    padding: 26px 0 10px;
+    border-top: 1px solid var(--line);
+  }
+  .sheet-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+  .kept { margin: 14px 0; }
+  .kept p { margin: 0; white-space: pre-wrap; }
+  .stone {
+    padding: 8px 0 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+  select.kind {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: transparent;
+    border: none;
+    color: var(--taupe);
+    padding: 6px 0 8px;
+    max-width: 100%;
+  }
+  .kindpick { display: flex; flex-direction: column; margin: 8px 0 4px; }
+  .kindpick button {
+    min-height: 48px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 2px;
+    text-align: left;
+    color: var(--brown);
+  }
+
+  .gather-empty, .gather-note {
+    max-width: 36rem;
+    margin: 8px 0 0;
+    color: var(--taupe);
+  }
+  .gather-note { margin-bottom: 28px; }
+  .noticed {
+    font-family: var(--hand);
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--rose);
+    margin: 0 0 36px;
+    max-width: 18em;
+  }
+  .season-week { margin: 0 0 40px; }
+  .season-week .kicker { margin-bottom: 6px; }
+  .season-range {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.2;
+    margin: 0 0 18px;
+    color: var(--brown);
+  }
+  .lived-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px 26px;
+    align-items: flex-start;
+  }
+  .lived-day {
+    min-width: 76px;
+    max-width: 104px;
+    min-height: 48px;
+    border: none;
+    background: transparent;
+    padding: 2px 0 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    text-align: center;
+    color: var(--brown);
+  }
+  .lived-day .wd {
+    font-family: var(--serif);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    line-height: 1;
+  }
+  .lived-day .when {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.15;
+  }
+  .fruit-disc {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    margin-top: 4px;
+    box-shadow: 0 8px 16px color-mix(in srgb, var(--brown) 10%, transparent);
+  }
+  .fruit-name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.2;
+    color: var(--taupe);
+  }
+  .lived-marks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 8px;
+  }
+  .wrote-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--brown);
+    display: inline-block;
+  }
+  .stone-mark {
+    width: 8px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--clay);
+    box-shadow: inset 0 0 0 1px var(--taupe);
+    display: inline-block;
+  }
+  .swatch-love { background: var(--rose); }
+  .swatch-joy { background: color-mix(in srgb, var(--clay) 62%, var(--rose)); }
+  .swatch-peace { background: var(--sage); }
+  .swatch-patience { background: var(--taupe); }
+  .swatch-kindness { background: color-mix(in srgb, var(--rose) 48%, var(--pale)); }
+  .swatch-goodness { background: var(--clay); }
+  .swatch-faithfulness { background: color-mix(in srgb, var(--brown) 48%, var(--clay)); }
+  .swatch-gentleness { background: color-mix(in srgb, var(--sage) 55%, var(--pale)); }
+  .swatch-selfcontrol { background: color-mix(in srgb, var(--brown) 62%, var(--taupe)); }
+
+  @media print {
+    @page { margin: 0.75in; }
+    html, body { background: #FAF7F2 !important; color: #5B4A3E; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    nav, .mast, .no-print, .icon-btn, .text-btn, .linkish { display: none !important; }
+    .app {
+      width: auto;
+      max-width: none;
+      min-height: 0;
+      padding: 0;
+      display: block;
+    }
+    main { padding: 0; }
+    .cover {
+      border: none;
+      padding: 2.1in 0 0;
+    }
+    .cover.cover-break {
+      break-after: page;
+      page-break-after: always;
+    }
+    .cover-word { font-size: 52px; }
+    .day-sheet {
+      border: none;
+      padding-top: 0;
+      break-after: page;
+      page-break-after: always;
+    }
+    .day-sheet:last-child { break-after: auto; page-break-after: auto; }
+    .stones-sheet {
+      border: none;
+      padding-top: 0;
+      break-before: auto;
+    }
+    textarea, input, select {
+      border: none !important;
+      background: transparent !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="mast">
+    <div id="bot-l" aria-hidden="true"></div>
+    <div class="mast-text">
+      <p class="eyebrow" id="eyebrow">Abide</p>
+      <h1 id="title">Today</h1>
+      <div class="rule" aria-hidden="true">
+        <i></i>
+        <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+          <path d="M11 6c1.6-3.2 4.6-3.4 5.6-1.2C15.6 7.2 13 8.2 11 6z" stroke="#A8B39C" stroke-width="1"/>
+          <path d="M11 6c-1.6-3.2-4.6-3.4-5.6-1.2C6.4 7.2 9 8.2 11 6z" stroke="#8B7765" stroke-width="1"/>
+        </svg>
+        <i></i>
+      </div>
+    </div>
+    <div id="bot-r" aria-hidden="true"></div>
+  </header>
+  <main id="main"></main>
+  <nav aria-label="Pages">
+    <button type="button" data-view="home">Home</button>
+    <button type="button" data-view="morning">Morning</button>
+    <button type="button" data-view="evening">Evening</button>
+    <button type="button" data-view="week">Week</button>
+    <button type="button" data-view="season">Season</button>
+    <button type="button" data-view="stones">Stones</button>
+    <button type="button" data-view="review">Review</button>
+  </nav>
+</div>
+<script>
+(function () {
+  var KEY = "abide-journal-v1";
+  var RHYTHMS = [
+    ["Faith", [
+      ["bible", "Bible reading"],
+      ["prayer", "Prayer"],
+      ["worship", "Worship"]
+    ]],
+    ["Body", [
+      ["burn", "Burn Boot Camp"],
+      ["walk", "Walk"],
+      ["water", "Water"]
+    ]],
+    ["Mind", [
+      ["read", "Read"],
+      ["vocal", "Vocal exercises"],
+      ["journal", "Journal"]
+    ]],
+    ["Family", [
+      ["erik", "Connect with Erik"],
+      ["myra", "Myra connection"],
+      ["milton", "Milton connection"]
+    ]],
+    ["Home", [
+      ["reset", "15-minute reset"]
+    ]]
+  ];
+  var BODY = [
+    ["movement", "Movement"],
+    ["water", "Water"],
+    ["nourish", "Nourish"],
+    ["rest", "Rest"]
+  ];
+  var FRUIT = [
+    ["love", "Love"],
+    ["joy", "Joy"],
+    ["peace", "Peace"],
+    ["patience", "Patience"],
+    ["kindness", "Kindness"],
+    ["goodness", "Goodness"],
+    ["faithfulness", "Faithfulness"],
+    ["gentleness", "Gentleness"],
+    ["selfcontrol", "Self-control"]
+  ];
+  var STONE_KINDS = [
+    ["prayer", "A prayer God answered"],
+    ["missed", "A moment I almost missed"],
+    ["home", "A story from our home"],
+    ["kindness", "A kindness I received"],
+    ["met", "A way God met me here"]
+  ];
+  var VIEWS = ["home", "morning", "evening", "week", "season", "stones", "review"];
+  var stoneDraftKind = "prayer";
+
+  function todayISO() {
+    var d = new Date();
+    return pad(d.getFullYear()) + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function clampDay(n) {
+    n = parseInt(n, 10);
+    if (isNaN(n) || n < 1) return 1;
+    if (n > 90) return 90;
+    return n;
+  }
+  function parseISO(iso) {
+    var p = String(iso || "").split("-");
+    if (p.length !== 3) return null;
+    var dt = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    if (isNaN(dt.getTime())) return null;
+    return dt;
+  }
+  function formatLong(dt) {
+    try {
+      return dt.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+    } catch (e) {
+      return "";
+    }
+  }
+  function addDays(dt, n) {
+    var x = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
+    x.setDate(x.getDate() + n);
+    return x;
+  }
+  function rawOffset() {
+    if (!state.startDate) return null;
+    var start = parseISO(state.startDate);
+    if (!start) return null;
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.round((today - start) / 86400000) + 1;
+  }
+  function homeDay() {
+    var off = rawOffset();
+    if (off == null) return clampDay(state.sittingDay || 1);
+    if (off < 1) return 1;
+    if (off > 90) return 90;
+    return off;
+  }
+  function dateForDay(n) {
+    var start = parseISO(state.startDate);
+    if (!start) return "";
+    return formatLong(addDays(start, n - 1));
+  }
+  function weekdayShort(n) {
+    var start = parseISO(state.startDate);
+    if (!start) return "";
+    try {
+      return addDays(start, n - 1).toLocaleDateString("en-US", { weekday: "short" });
+    } catch (e) {
+      return "";
+    }
+  }
+  function monthDay(n) {
+    var start = parseISO(state.startDate);
+    if (!start) return "";
+    try {
+      return addDays(start, n - 1).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    } catch (e) {
+      return "";
+    }
+  }
+  function weekStartFor(day) {
+    day = clampDay(day);
+    if (day >= 85) return 85;
+    return Math.floor((day - 1) / 7) * 7 + 1;
+  }
+  function weekLen(start) { return start >= 85 ? 6 : 7; }
+  function fresh() {
+    return {
+      startDate: todayISO(),
+      anchorDate: todayISO(),
+      view: "home",
+      sittingDay: 1,
+      weekCursor: 1,
+      morning: {},
+      evening: {},
+      weeks: {},
+      body: {},
+      fruit: {},
+      gratitude: {},
+      stones: []
+    };
+  }
+  function cleanStones(list) {
+    if (!Array.isArray(list)) return [];
+    return list.filter(function (s) {
+      return s && typeof s === "object";
+    }).map(function (s, i) {
+      var kind = "met";
+      for (var k = 0; k < STONE_KINDS.length; k++) {
+        if (STONE_KINDS[k][0] === s.kind) kind = s.kind;
+      }
+      return {
+        id: s.id ? String(s.id) : ("s" + i + "-" + Math.random().toString(36).slice(2, 7)),
+        kind: kind,
+        text: typeof s.text === "string" ? s.text : "",
+        at: typeof s.at === "string" ? s.at : ""
+      };
+    });
+  }
+  function kindLabel(kind) {
+    for (var i = 0; i < STONE_KINDS.length; i++) {
+      if (STONE_KINDS[i][0] === kind) return STONE_KINDS[i][1];
+    }
+    return "A way God met me here";
+  }
+  function newId() {
+    return "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return fresh();
+      var data = JSON.parse(raw);
+      if (!data || typeof data !== "object") return fresh();
+      var base = fresh();
+      if (typeof data.startDate === "string") base.startDate = /^\d{4}-\d{2}-\d{2}$/.test(data.startDate) ? data.startDate : "";
+      base.anchorDate = typeof data.anchorDate === "string" ? data.anchorDate : "";
+      base.view = VIEWS.indexOf(data.view) >= 0 ? data.view : "home";
+      base.sittingDay = clampDay(data.sittingDay || 1);
+      base.weekCursor = weekStartFor(data.weekCursor || 1);
+      base.morning = data.morning && typeof data.morning === "object" ? data.morning : {};
+      base.evening = data.evening && typeof data.evening === "object" ? data.evening : {};
+      base.weeks = data.weeks && typeof data.weeks === "object" ? data.weeks : {};
+      base.body = data.body && typeof data.body === "object" ? data.body : {};
+      base.fruit = data.fruit && typeof data.fruit === "object" && !Array.isArray(data.fruit) ? data.fruit : {};
+      base.gratitude = data.gratitude && typeof data.gratitude === "object" && !Array.isArray(data.gratitude) ? data.gratitude : {};
+      base.stones = cleanStones(data.stones);
+      return base;
+    } catch (e) {
+      return fresh();
+    }
+  }
+  var state = load();
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function reconcile() {
+    if (!state.startDate) {
+      state.sittingDay = clampDay(state.sittingDay || 1);
+      state.weekCursor = weekStartFor(state.weekCursor || state.sittingDay);
+      return;
+    }
+    var today = todayISO();
+    if (state.anchorDate !== today) {
+      state.sittingDay = homeDay();
+      state.weekCursor = weekStartFor(state.sittingDay);
+      state.anchorDate = today;
+      save();
+    } else {
+      state.sittingDay = clampDay(state.sittingDay || homeDay());
+      state.weekCursor = weekStartFor(state.weekCursor || state.sittingDay);
+    }
+  }
+  reconcile();
+
+  function encouragement(now) {
+    now = now || new Date();
+    var h = now.getHours();
+    var lines;
+    if (h < 5 || h >= 21) {
+      lines = ["Return tomorrow. Grace is new.", "Abide first. The fruit will come."];
+    } else if (h < 11) {
+      lines = ["What might God be inviting me into?", "Your invitation is simply to remain."];
+    } else if (h < 17) {
+      lines = ["Take a moment to notice.", "Delight in the ordinary gifts."];
+    } else {
+      lines = ["Today I receive.", "Lord, today I lay down."];
+    }
+    return lines[now.getDate() % lines.length];
+  }
+
+  function eucalyptus() {
+    return '<svg class="bot" viewBox="0 0 80 120" fill="none" stroke-linecap="round">' +
+      '<path d="M42 112C40 86 46 70 38 48C32 32 40 16 36 6" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="26" cy="58" rx="13" ry="5" transform="rotate(-38 26 58)" stroke="#A8B39C" stroke-width="1"/>' +
+      '<ellipse cx="52" cy="70" rx="14" ry="5.2" transform="rotate(30 52 70)" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="28" cy="80" rx="11" ry="4.4" transform="rotate(-26 28 80)" stroke="#A8B39C" stroke-width="1"/>' +
+      '<ellipse cx="50" cy="40" rx="11" ry="4.2" transform="rotate(28 50 40)" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="34" cy="96" rx="9" ry="3.5" transform="rotate(16 34 96)" stroke="#A8B39C" stroke-width="1"/>' +
+      '</svg>';
+  }
+  function olive() {
+    return '<svg class="bot" viewBox="0 0 80 120" fill="none" stroke-linecap="round">' +
+      '<path d="M22 110C34 82 30 58 46 28C50 20 54 12 50 6" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="34" cy="78" rx="12" ry="4.4" transform="rotate(-50 34 78)" stroke="#A8B39C" stroke-width="1"/>' +
+      '<ellipse cx="40" cy="62" rx="12" ry="4.4" transform="rotate(42 40 62)" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="36" cy="48" rx="11" ry="4" transform="rotate(-46 36 48)" stroke="#A8B39C" stroke-width="1"/>' +
+      '<ellipse cx="48" cy="36" rx="10" ry="3.8" transform="rotate(40 48 36)" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="58" cy="86" rx="4" ry="6" transform="rotate(20 58 86)" stroke="#8B7765" stroke-width="1"/>' +
+      '</svg>';
+  }
+  function wildflower() {
+    return '<svg class="bot" viewBox="0 0 80 120" fill="none" stroke-linecap="round">' +
+      '<path d="M40 112C38 88 44 74 40 58" stroke="#8B7765" stroke-width="1"/>' +
+      '<path d="M40 80C28 74 24 66 30 62" stroke="#A8B39C" stroke-width="1"/>' +
+      '<path d="M40 70C52 64 56 56 50 52" stroke="#A8B39C" stroke-width="1"/>' +
+      '<circle cx="40" cy="40" r="3.2" stroke="#B78C8C" stroke-width="1"/>' +
+      '<ellipse cx="40" cy="28" rx="3.2" ry="6" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="52" cy="36" rx="3.2" ry="6" transform="rotate(72 52 36)" stroke="#A8B39C" stroke-width="1"/>' +
+      '<ellipse cx="48" cy="50" rx="3.2" ry="6" transform="rotate(144 48 50)" stroke="#8B7765" stroke-width="1"/>' +
+      '<ellipse cx="32" cy="50" rx="3.2" ry="6" transform="rotate(216 32 50)" stroke="#A8B39C" stroke-width="1"/>' +
+      '<ellipse cx="28" cy="36" rx="3.2" ry="6" transform="rotate(288 28 36)" stroke="#8B7765" stroke-width="1"/>' +
+      '<path d="M58 96c6-2 10 2 8 7" stroke="#C9B4A5" stroke-width="1"/>' +
+      '</svg>';
+  }
+  function botanicals(view) {
+    var left = eucalyptus();
+    var right = olive();
+    if (view === "evening") right = wildflower();
+    if (view === "week") { left = olive(); right = eucalyptus(); }
+    if (view === "morning") right = wildflower();
+    if (view === "stones") { left = wildflower(); right = olive(); }
+    if (view === "review") { left = eucalyptus(); right = wildflower(); }
+    if (view === "season") { left = olive(); right = wildflower(); }
+    document.getElementById("bot-l").innerHTML = left;
+    document.getElementById("bot-r").innerHTML = right;
+  }
+
+  function el(tag, attrs, text) {
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") node.className = attrs[k];
+      else node.setAttribute(k, attrs[k]);
+    });
+    if (text != null) node.textContent = text;
+    return node;
+  }
+  function grow(area) {
+    var min = area.classList.contains("short") ? 52 : 84;
+    area.style.height = "auto";
+    area.style.height = Math.max(area.scrollHeight, min) + "px";
+  }
+  function field(kicker, name, value, key, bucket) {
+    var wrap = el("label", { class: "field" });
+    if (kicker) wrap.appendChild(el("span", { class: "kicker" }, kicker));
+    wrap.appendChild(el("span", { class: "name" }, name));
+    var area = el("textarea", { rows: "3" });
+    area.value = value || "";
+    area.addEventListener("input", function () {
+      if (!state[bucket][state.sittingDay]) state[bucket][state.sittingDay] = {};
+      state[bucket][state.sittingDay][key] = area.value;
+      save();
+      grow(area);
+    });
+    wrap.appendChild(area);
+    return wrap;
+  }
+  function paintEncourage() {
+    var node = document.getElementById("encourage");
+    if (node) node.textContent = encouragement();
+  }
+
+  function renderHome() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "Abide";
+    document.getElementById("title").textContent = "Volume Seven";
+
+    var day = homeDay();
+    var off = rawOffset();
+    var prose = el("div", { class: "prose" });
+    prose.appendChild(el("p", { class: "scripture" }, "Abide in me, and I in you."));
+    prose.appendChild(el("p", { class: "cite" }, "John 15:4"));
+    prose.appendChild(el("p", { class: "hand" }, "Come sit."));
+    prose.appendChild(el("p", { class: "season" }, "This season at home is for noticing God in the little moments. The kitchen. The car. The garden. Myra, Milton, and Erik."));
+    var companion = el("p", { class: "invite" });
+    companion.style.marginTop = "18px";
+    companion.textContent = "A 90-day companion for morning coffee, open Bibles, quiet hearts, and beautiful ordinary days.";
+    prose.appendChild(companion);
+    prose.appendChild(el("p", null, "This is not about becoming more productive. It is about becoming more present with God, with Erik, with Myra and Milton, and with the ordinary minutes that become a life."));
+    prose.appendChild(el("p", null, "Receive instead of strive. Notice instead of force. Delight instead of merely endure."));
+    main.appendChild(prose);
+
+    main.appendChild(el("p", { class: "invite" }, "Begin whenever you are ready."));
+    var block = el("div", { class: "dayblock" });
+    var quiet = el("p", { class: "quiet-day" });
+    quiet.textContent = "Day " + day + " of ninety";
+    block.appendChild(quiet);
+    if (state.startDate && off != null && off >= 1 && off <= 90) {
+      block.appendChild(el("p", { class: "dateline" }, dateForDay(day)));
+    }
+    main.appendChild(block);
+    if (state.startDate && off != null && off < 1) {
+      main.appendChild(el("p", { class: "small note" }, "The date you chose is still ahead. You may wait, or sit with day 1 now."));
+    } else if (state.startDate && off != null && off > 90) {
+      main.appendChild(el("p", { class: "small note" }, "These ninety days have unfolded. The pages are still here."));
+    }
+    main.appendChild(el("p", { class: "hand", id: "encourage" }, encouragement()));
+
+    var panel = el("div", { class: "panel" });
+    var lab = el("label", { class: "date-label", for: "start-date" }, "Beginning date");
+    panel.appendChild(lab);
+    var input = el("input", { id: "start-date", type: "date" });
+    if (state.startDate) input.value = state.startDate;
+    input.addEventListener("change", function () {
+      state.startDate = /^\d{4}-\d{2}-\d{2}$/.test(input.value) ? input.value : "";
+      state.anchorDate = todayISO();
+      if (state.startDate) state.sittingDay = homeDay();
+      state.weekCursor = weekStartFor(state.sittingDay);
+      save();
+      render();
+    });
+    panel.appendChild(input);
+    panel.appendChild(el("p", { class: "small note" }, "Calendar dates are always optional."));
+    panel.appendChild(el("p", { class: "small" }, "Changing this only decides which day today is. What you have written stays on its day."));
+    if (state.startDate) {
+      var clear = el("button", { type: "button", class: "text-btn" }, "Leave the date open");
+      clear.addEventListener("click", function () {
+        state.startDate = "";
+        state.sittingDay = clampDay(state.sittingDay || 1);
+        state.weekCursor = weekStartFor(state.sittingDay);
+        save();
+        render();
+      });
+      panel.appendChild(clear);
+    } else {
+      var step = el("div", { class: "stepper" });
+      var prev = el("button", { type: "button", class: "icon-btn", "aria-label": "Earlier day" }, "‹");
+      var next = el("button", { type: "button", class: "icon-btn", "aria-label": "Later day" }, "›");
+      if (state.sittingDay <= 1) prev.disabled = true;
+      if (state.sittingDay >= 90) next.disabled = true;
+      prev.addEventListener("click", function () { shiftDay(-1); });
+      next.addEventListener("click", function () { shiftDay(1); });
+      var label = el("p", null, "Sitting with day " + state.sittingDay);
+      step.appendChild(prev);
+      step.appendChild(label);
+      step.appendChild(next);
+      panel.appendChild(step);
+    }
+    panel.appendChild(el("p", { class: "small note" }, "Kept on this device."));
+    main.appendChild(panel);
+  }
+
+  function shiftDay(delta) {
+    state.sittingDay = clampDay(state.sittingDay + delta);
+    state.anchorDate = state.startDate ? todayISO() : state.anchorDate;
+    save();
+    render();
+  }
+
+  function dayChrome(parent) {
+    var row = el("div", { class: "stepper" });
+    var prev = el("button", { type: "button", class: "icon-btn", "aria-label": "Previous day" }, "‹");
+    var next = el("button", { type: "button", class: "icon-btn", "aria-label": "Next day" }, "›");
+    if (state.sittingDay <= 1) prev.disabled = true;
+    if (state.sittingDay >= 90) next.disabled = true;
+    prev.addEventListener("click", function () { shiftDay(-1); });
+    next.addEventListener("click", function () { shiftDay(1); });
+    var mid = el("p");
+    mid.appendChild(el("span", { class: "kicker" }, "Day " + state.sittingDay + " of 90"));
+    var when = dateForDay(state.sittingDay);
+    if (when) {
+      var sub = el("span", { class: "dateline" });
+      sub.style.display = "block";
+      sub.textContent = when;
+      mid.appendChild(sub);
+    }
+    row.appendChild(prev);
+    row.appendChild(mid);
+    row.appendChild(next);
+    parent.appendChild(row);
+    var today = homeDay();
+    if (state.startDate && state.sittingDay !== today) {
+      var back = el("button", { type: "button", class: "linkish" }, "Sit with today");
+      back.addEventListener("click", function () {
+        state.sittingDay = today;
+        state.anchorDate = todayISO();
+        save();
+        render();
+      });
+      parent.appendChild(back);
+    }
+  }
+
+  function bodyMarks(parent) {
+    var box = el("div", { class: "body-care" });
+    box.appendChild(el("h2", null, "Care for my body with kindness"));
+    var grid = el("div", { class: "marks" });
+    var saved = state.body[state.sittingDay] || {};
+    BODY.forEach(function (pair) {
+      var id = pair[0];
+      var on = !!saved[id];
+      var btn = el("button", { type: "button", class: "mark", "aria-pressed": on ? "true" : "false" });
+      btn.appendChild(el("span", { class: "bubble", "aria-hidden": "true" }));
+      btn.appendChild(document.createTextNode(pair[1]));
+      btn.addEventListener("click", function () {
+        if (!state.body[state.sittingDay]) state.body[state.sittingDay] = {};
+        var next = !state.body[state.sittingDay][id];
+        state.body[state.sittingDay][id] = next;
+        btn.setAttribute("aria-pressed", next ? "true" : "false");
+        save();
+      });
+      grid.appendChild(btn);
+    });
+    box.appendChild(grid);
+    parent.appendChild(box);
+  }
+
+
+  function fruitNames(day) {
+    var saved = state.fruit[day] || {};
+    var names = [];
+    FRUIT.forEach(function (pair) {
+      if (saved[pair[0]]) names.push(pair[1]);
+    });
+    return names;
+  }
+
+  function fruitMarks(parent) {
+    var box = el("div", { class: "body-care" });
+    box.appendChild(el("h2", null, "Fruit of the Spirit"));
+    box.appendChild(el("p", { class: "cite" }, "Galatians 5:22\u201323"));
+    box.appendChild(el("p", { class: "quiet" }, "Tap the fruit you want to practice today. One is enough."));
+    var grid = el("div", { class: "marks" });
+    var saved = state.fruit[state.sittingDay] || {};
+    FRUIT.forEach(function (pair) {
+      var id = pair[0];
+      var on = !!saved[id];
+      var btn = el("button", { type: "button", class: "mark", "aria-pressed": on ? "true" : "false" });
+      btn.appendChild(el("span", { class: "bubble", "aria-hidden": "true" }));
+      btn.appendChild(document.createTextNode(pair[1]));
+      btn.addEventListener("click", function () {
+        if (!state.fruit[state.sittingDay]) state.fruit[state.sittingDay] = {};
+        var next = !state.fruit[state.sittingDay][id];
+        state.fruit[state.sittingDay][id] = next;
+        btn.setAttribute("aria-pressed", next ? "true" : "false");
+        save();
+      });
+      grid.appendChild(btn);
+    });
+    box.appendChild(grid);
+    parent.appendChild(box);
+  }
+
+  function renderMorning() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "Daily abiding";
+    document.getElementById("title").textContent = "Morning";
+    dayChrome(main);
+    var entry = state.morning[state.sittingDay] || {};
+    main.appendChild(field("Receive", "Today's Scripture", entry.scripture, "scripture", "morning"));
+    main.appendChild(field("Open hands", "Lord, today I lay down...", entry.lay, "lay", "morning"));
+    main.appendChild(field("Faithful presence", "How do I want to show up today?", entry.show, "show", "morning"));
+    main.appendChild(field("", "One way I want to live today's Scripture", entry.live, "live", "morning"));
+    bodyMarks(main);
+    fruitMarks(main);
+    main.appendChild(field("", "A small way to love well today", entry.love, "love", "morning"));
+    main.appendChild(el("p", { class: "hand", id: "encourage" }, encouragement()));
+    main.querySelectorAll("textarea").forEach(grow);
+  }
+
+
+  function fruitEvening(parent, entry) {
+    var names = fruitNames(state.sittingDay);
+    var box = el("div", { class: "body-care" });
+    box.appendChild(el("h2", null, "Fruit of the Spirit"));
+    if (!names.length) {
+      box.appendChild(el("p", { class: "quiet" }, "When you tap a fruit in the morning, it will be here to reflect on."));
+      parent.appendChild(box);
+      return;
+    }
+    box.appendChild(el("p", { class: "scripture" }, names.join(", ")));
+    box.appendChild(el("p", { class: "quiet" }, "This is the fruit you wanted to practice today."));
+    parent.appendChild(box);
+    var prompt = names.length === 1
+      ? "How did " + names[0].toLowerCase() + " show up today?"
+      : "How did these show up today?";
+    parent.appendChild(field("", prompt, entry.fruitReflect, "fruitReflect", "evening"));
+  }
+
+  function renderEvening() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "Daily abiding";
+    document.getElementById("title").textContent = "Evening";
+    dayChrome(main);
+    var entry = state.evening[state.sittingDay] || {};
+    fruitEvening(main, entry);
+    main.appendChild(field("", "What delighted me today?", entry.delight, "delight", "evening"));
+    main.appendChild(gratitudeField());
+    main.appendChild(field("", "Where did I see God today?", entry.god, "god", "evening"));
+    main.appendChild(field("", "Where did I feel distracted, guarded, or far away?", entry.far, "far", "evening"));
+    main.appendChild(field("", "What grace or truth do I want to carry into tomorrow?", entry.grace, "grace", "evening"));
+    main.appendChild(el("p", { class: "hand", id: "encourage" }, encouragement()));
+    main.appendChild(el("p", { class: "hand return" }, "return."));
+    main.querySelectorAll("textarea").forEach(grow);
+  }
+
+  function renderWeek() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "Weekly rhythm";
+    document.getElementById("title").textContent = "Check-in";
+    var start = weekStartFor(state.weekCursor);
+    state.weekCursor = start;
+    var len = weekLen(start);
+    var head = el("div", { class: "week-head" });
+    var prev = el("button", { type: "button", class: "icon-btn", "aria-label": "Earlier days" }, "‹");
+    var next = el("button", { type: "button", class: "icon-btn", "aria-label": "Later days" }, "›");
+    if (start <= 1) prev.disabled = true;
+    if (start >= 85) next.disabled = true;
+    prev.addEventListener("click", function () {
+      state.weekCursor = weekStartFor(start - 1);
+      save();
+      render();
+    });
+    next.addEventListener("click", function () {
+      state.weekCursor = weekStartFor(start + len);
+      save();
+      render();
+    });
+    head.appendChild(prev);
+    var fromDate = monthDay(start);
+    var toDate = monthDay(start + len - 1);
+    var weekTitle = fromDate && toDate ? fromDate + " \u2013 " + toDate : "Days " + start + "\u2013" + (start + len - 1);
+    head.appendChild(el("p", null, weekTitle));
+    head.appendChild(next);
+    main.appendChild(head);
+    main.appendChild(el("p", { class: "quiet" }, "A few ways to care for yourself and stay present. Leave blanks without guilt. Noticing God and your people lives in the evening, not in these marks."));
+    if (!state.startDate) {
+      main.appendChild(el("p", { class: "quiet" }, "Set a beginning date on Home, and these columns become the weekdays of your season."));
+    }
+
+    var around = weekStartFor(state.sittingDay);
+    if (around !== start) {
+      var aroundLabel = monthDay(state.sittingDay) || ("day " + state.sittingDay);
+      var jump = el("button", { type: "button", class: "linkish" }, "Sit with the week of " + aroundLabel);
+      jump.addEventListener("click", function () {
+        state.weekCursor = around;
+        save();
+        render();
+      });
+      main.appendChild(jump);
+    }
+
+    var caps = el("div", { class: "headrow" });
+    caps.appendChild(el("div"));
+    var capGrid = el("div", { class: "days colcap" });
+    capGrid.style.gridTemplateColumns = "repeat(" + len + ", 1fr)";
+    for (var i = 0; i < len; i++) {
+      var dayNum = start + i;
+      var cap = el("span", { class: "daycap" });
+      var wd = weekdayShort(dayNum);
+      var when = monthDay(dayNum);
+      if (wd) cap.appendChild(el("span", { class: "wd" }, wd));
+      cap.appendChild(document.createTextNode(when || String(dayNum)));
+      capGrid.appendChild(cap);
+    }
+    caps.appendChild(capGrid);
+    main.appendChild(caps);
+
+    var saved = state.weeks[start] || {};
+    RHYTHMS.forEach(function (group) {
+      var g = el("section", { class: "group" });
+      g.appendChild(el("h2", null, group[0]));
+      group[1].forEach(function (pair) {
+        var id = pair[0];
+        var row = el("div", { class: "rhythm" });
+        row.appendChild(el("div", { class: "rname" }, pair[1]));
+        var dots = el("div", { class: "days" });
+        dots.style.gridTemplateColumns = "repeat(" + len + ", 1fr)";
+        var marks = saved[id] || [];
+        for (var d = 0; d < len; d++) {
+          (function (index) {
+            var on = !!marks[index];
+            var btn = el("button", {
+              type: "button",
+              class: "dotbtn",
+              "aria-pressed": on ? "true" : "false",
+              "aria-label": pair[1] + ", " + (weekdayShort(start + index) ? weekdayShort(start + index) + " " : "") + "day " + (start + index)
+            });
+            btn.appendChild(el("span", { class: "bubble", "aria-hidden": "true" }));
+            btn.addEventListener("click", function () {
+              if (!state.weeks[start]) state.weeks[start] = {};
+              if (!state.weeks[start][id]) state.weeks[start][id] = [];
+              var cur = !!state.weeks[start][id][index];
+              state.weeks[start][id][index] = !cur;
+              btn.setAttribute("aria-pressed", !cur ? "true" : "false");
+              save();
+            });
+            dots.appendChild(btn);
+          })(d);
+        }
+        row.appendChild(dots);
+        g.appendChild(row);
+      });
+      main.appendChild(g);
+    });
+    main.appendChild(el("p", { class: "hand footer-line" }, "Progress, not perfection. Presence over everything."));
+    main.appendChild(el("p", { class: "hand", id: "encourage" }, encouragement()));
+  }
+
+  function gratitudeField() {
+    var wrap = el("label", { class: "field" });
+    wrap.appendChild(el("span", { class: "kicker" }, "Gratitude"));
+    wrap.appendChild(el("span", { class: "name" }, "What am I grateful I noticed today?"));
+    var area = el("textarea", { rows: "2", class: "short" });
+    area.value = state.gratitude[state.sittingDay] || "";
+    area.addEventListener("input", function () {
+      var value = area.value;
+      if (value.trim()) state.gratitude[state.sittingDay] = value;
+      else delete state.gratitude[state.sittingDay];
+      save();
+      grow(area);
+    });
+    wrap.appendChild(area);
+    return wrap;
+  }
+
+  function kept(parent, kicker, value) {
+    value = (value || "").trim();
+    if (!value) return false;
+    var box = el("div", { class: "kept" });
+    box.appendChild(el("span", { class: "kicker" }, kicker));
+    box.appendChild(el("p", null, value));
+    parent.appendChild(box);
+    return true;
+  }
+
+  function bodyNames(day) {
+    var saved = state.body[day] || {};
+    var names = [];
+    BODY.forEach(function (pair) {
+      if (saved[pair[0]]) names.push(pair[1]);
+    });
+    return names;
+  }
+
+  function marksForDay(day) {
+    var start = weekStartFor(day);
+    var index = day - start;
+    var bucket = state.weeks[start] || {};
+    var names = [];
+    RHYTHMS.forEach(function (group) {
+      group[1].forEach(function (pair) {
+        var marks = bucket[pair[0]];
+        if (marks && marks[index]) names.push(pair[1]);
+      });
+    });
+    return names;
+  }
+
+  function dayHas(day) {
+    var morning = state.morning[day] || {};
+    var evening = state.evening[day] || {};
+    var keys = ["scripture", "lay", "show", "live", "love"];
+    for (var i = 0; i < keys.length; i++) {
+      if ((morning[keys[i]] || "").trim()) return true;
+    }
+    keys = ["delight", "god", "far", "grace", "fruitReflect"];
+    for (var j = 0; j < keys.length; j++) {
+      if ((evening[keys[j]] || "").trim()) return true;
+    }
+    if ((state.gratitude[day] || "").trim()) return true;
+    if (bodyNames(day).length) return true;
+    if (fruitNames(day).length) return true;
+    if (marksForDay(day).length) return true;
+    return false;
+  }
+
+  function renderStones() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "Stones of remembrance";
+    document.getElementById("title").textContent = "Remember";
+    main.appendChild(el("p", { class: "hand" }, "The good I want to remember."));
+    main.appendChild(el("p", { class: "invite" }, "Write one whenever you notice. They stay. Add as many as you like across these ninety days."));
+
+    if (!state.stones.length) {
+      main.appendChild(el("p", { class: "quiet" }, "Nothing is kept here yet. There is no hurry."));
+    }
+    state.stones.forEach(function (stone) {
+      var card = el("article", { class: "stone" });
+      var shown = el("span", { class: "kicker" }, kindLabel(stone.kind));
+      card.appendChild(shown);
+      var when = parseISO(stone.at);
+      if (when) card.appendChild(el("p", { class: "small" }, formatLong(when)));
+      var area = el("textarea", { rows: "3" });
+      area.value = stone.text || "";
+      area.addEventListener("input", function () {
+        stone.text = area.value;
+        save();
+        grow(area);
+      });
+      card.appendChild(area);
+      var picker = el("select", { class: "kind no-print", "aria-label": "What kind of stone" });
+      STONE_KINDS.forEach(function (pair) {
+        var opt = el("option", { value: pair[0] }, pair[1]);
+        if (pair[0] === stone.kind) opt.setAttribute("selected", "selected");
+        picker.appendChild(opt);
+      });
+      picker.addEventListener("change", function () {
+        stone.kind = picker.value;
+        shown.textContent = kindLabel(stone.kind);
+        save();
+      });
+      card.appendChild(picker);
+      var remove = el("button", { type: "button", class: "text-btn no-print" }, "Remove");
+      remove.addEventListener("click", function () {
+        state.stones = state.stones.filter(function (item) { return item.id !== stone.id; });
+        save();
+        render();
+      });
+      card.appendChild(remove);
+      main.appendChild(card);
+      grow(area);
+    });
+
+    var add = el("div", { class: "panel no-print" });
+    add.appendChild(el("h2", { class: "subhead" }, "Another stone"));
+    var pick = el("div", { class: "kindpick", role: "group", "aria-label": "Kind of stone" });
+    var kindButtons = [];
+    STONE_KINDS.forEach(function (pair) {
+      var on = pair[0] === stoneDraftKind;
+      var btn = el("button", { type: "button", class: "mark", "aria-pressed": on ? "true" : "false" });
+      btn.appendChild(el("span", { class: "bubble", "aria-hidden": "true" }));
+      btn.appendChild(document.createTextNode(pair[1]));
+      btn.addEventListener("click", function () {
+        stoneDraftKind = pair[0];
+        kindButtons.forEach(function (other) {
+          other.setAttribute("aria-pressed", other === btn ? "true" : "false");
+        });
+      });
+      kindButtons.push(btn);
+      pick.appendChild(btn);
+    });
+    add.appendChild(pick);
+    var draft = el("textarea", { rows: "3", "aria-label": "The good I want to remember" });
+    add.appendChild(draft);
+    var keep = el("button", { type: "button", class: "text-btn" }, "Keep this stone");
+    keep.addEventListener("click", function () {
+      var value = draft.value.trim();
+      if (!value) return;
+      state.stones.push({ id: newId(), kind: stoneDraftKind, text: draft.value, at: todayISO() });
+      save();
+      render();
+    });
+    add.appendChild(keep);
+    main.appendChild(add);
+    main.querySelectorAll("textarea").forEach(grow);
+  }
+
+  function renderReview() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "Ninety days";
+    document.getElementById("title").textContent = "Review";
+
+    var cover = el("header", { class: "cover" });
+    cover.appendChild(el("p", { class: "cover-word" }, "ABIDE"));
+    cover.appendChild(el("p", { class: "cover-line" }, "Volume Seven"));
+    cover.appendChild(el("p", { class: "cover-line" }, "Alysen"));
+    cover.appendChild(el("p", { class: "scripture" }, "Abide in me, and I in you."));
+    cover.appendChild(el("p", { class: "cite" }, "John 15:4"));
+    main.appendChild(cover);
+
+    var lead = el("p", { class: "quiet no-print" }, "A quiet reading, in the order of the ninety days. Only days with something kept are here. Empty days stay unprinted.");
+    main.appendChild(lead);
+    var printBtn = el("button", { type: "button", class: "text-btn no-print" }, "Print these pages");
+    printBtn.addEventListener("click", function () { window.print(); });
+    main.appendChild(printBtn);
+
+    var anyDay = false;
+    for (var day = 1; day <= 90; day++) {
+      if (!dayHas(day)) continue;
+      anyDay = true;
+      var sheet = el("article", { class: "day-sheet" });
+      sheet.appendChild(el("h2", { class: "sheet-title" }, "Day " + day));
+      var when = dateForDay(day);
+      if (when) sheet.appendChild(el("p", { class: "dateline" }, when));
+      var morning = state.morning[day] || {};
+      var evening = state.evening[day] || {};
+      var morningHold = el("div");
+      var morningAny = false;
+      morningAny = kept(morningHold, "Today's Scripture", morning.scripture) || morningAny;
+      morningAny = kept(morningHold, "Lord, today I lay down", morning.lay) || morningAny;
+      morningAny = kept(morningHold, "How I wanted to show up", morning.show) || morningAny;
+      morningAny = kept(morningHold, "Living today's Scripture", morning.live) || morningAny;
+      morningAny = kept(morningHold, "A small way to love well", morning.love) || morningAny;
+      var body = bodyNames(day);
+      if (body.length) {
+        morningHold.appendChild(el("p", { class: "quiet" }, "With kindness: " + body.join(", ") + "."));
+        morningAny = true;
+      }
+      var fruit = fruitNames(day);
+      if (fruit.length) {
+        morningHold.appendChild(el("p", { class: "quiet" }, "Fruit I wanted to practice: " + fruit.join(", ") + "."));
+        morningAny = true;
+      }
+      if (morningAny) {
+        sheet.appendChild(el("h3", { class: "subhead" }, "Morning"));
+        while (morningHold.firstChild) sheet.appendChild(morningHold.firstChild);
+      }
+      var eveningHold = el("div");
+      var eveningAny = false;
+      eveningAny = kept(eveningHold, "How the fruit showed up", evening.fruitReflect) || eveningAny;
+      eveningAny = kept(eveningHold, "What delighted me", evening.delight) || eveningAny;
+      eveningAny = kept(eveningHold, "What I am grateful I noticed", state.gratitude[day]) || eveningAny;
+      eveningAny = kept(eveningHold, "Where I saw God", evening.god) || eveningAny;
+      eveningAny = kept(eveningHold, "Where I felt far", evening.far) || eveningAny;
+      eveningAny = kept(eveningHold, "Grace I carry", evening.grace) || eveningAny;
+      if (eveningAny) {
+        sheet.appendChild(el("h3", { class: "subhead" }, "Evening"));
+        while (eveningHold.firstChild) sheet.appendChild(eveningHold.firstChild);
+      }
+      var marks = marksForDay(day);
+      if (marks.length) {
+        sheet.appendChild(el("p", { class: "quiet" }, "Small yeses: " + marks.join(", ") + "."));
+      }
+      main.appendChild(sheet);
+    }
+
+    var keptStones = state.stones.filter(function (stone) { return (stone.text || "").trim(); });
+    if (anyDay || keptStones.length) cover.classList.add("cover-break");
+    if (!anyDay && !keptStones.length) {
+      main.appendChild(el("p", { class: "invite" }, "These pages are still open. Return whenever you are ready. Grace is new."));
+    }
+    if (keptStones.length) {
+      var stones = el("section", { class: "stones-sheet" });
+      stones.appendChild(el("h2", { class: "sheet-title" }, "Stones of remembrance"));
+      stones.appendChild(el("p", { class: "hand" }, "The good I want to remember."));
+      keptStones.forEach(function (stone) {
+        var card = el("article", { class: "kept" });
+        card.appendChild(el("span", { class: "kicker" }, kindLabel(stone.kind)));
+        var when = parseISO(stone.at);
+        if (when) card.appendChild(el("p", { class: "small" }, formatLong(when)));
+        card.appendChild(el("p", null, stone.text.trim()));
+        stones.appendChild(card);
+      });
+      main.appendChild(stones);
+    }
+  }
+
+
+  function firstFruit(day) {
+    var saved = state.fruit[day] || {};
+    for (var i = 0; i < FRUIT.length; i++) {
+      if (saved[FRUIT[i][0]]) return FRUIT[i];
+    }
+    return null;
+  }
+
+  function wroteEvening(day) {
+    var evening = state.evening[day] || {};
+    var keys = ["delight", "god", "far", "grace", "fruitReflect"];
+    for (var i = 0; i < keys.length; i++) {
+      if ((evening[keys[i]] || "").trim()) return true;
+    }
+    if ((state.gratitude[day] || "").trim()) return true;
+    return false;
+  }
+
+  function dayIso(n) {
+    var start = parseISO(state.startDate);
+    if (!start) return "";
+    var dt = addDays(start, n - 1);
+    return pad(dt.getFullYear()) + "-" + pad(dt.getMonth() + 1) + "-" + pad(dt.getDate());
+  }
+
+  function hasStone(day) {
+    var iso = dayIso(day);
+    for (var i = 0; i < state.stones.length; i++) {
+      var stone = state.stones[i];
+      if (!stone) continue;
+      if (stone.day != null && String(stone.day) !== "") {
+        var numbered = parseInt(stone.day, 10);
+        if (numbered === day) return true;
+      }
+      if (iso && stone.at === iso) return true;
+    }
+    return false;
+  }
+
+  function livedDays() {
+    var days = [];
+    for (var day = 1; day <= 90; day++) {
+      if (firstFruit(day) || wroteEvening(day) || hasStone(day)) days.push(day);
+    }
+    return days;
+  }
+
+  function noticingLine() {
+    var counts = {};
+    FRUIT.forEach(function (pair) { counts[pair[0]] = 0; });
+    for (var day = 1; day <= 90; day++) {
+      var saved = state.fruit[day] || {};
+      FRUIT.forEach(function (pair) {
+        if (saved[pair[0]]) counts[pair[0]]++;
+      });
+    }
+    var returned = 0;
+    FRUIT.forEach(function (pair) {
+      if (counts[pair[0]] > returned) returned = counts[pair[0]];
+    });
+    if (returned < 2) return "";
+    var names = [];
+    FRUIT.forEach(function (pair) {
+      if (counts[pair[0]] === returned) names.push(pair[1]);
+    });
+    if (names.length === 1) return names[0] + " has been with you.";
+    if (names.length === 2) return names[0] + " and " + names[1] + " have been with you.";
+    var last = names[names.length - 1];
+    return names.slice(0, -1).join(", ") + ", and " + last + " have been with you.";
+  }
+
+  function livedDayButton(day) {
+    var fruit = firstFruit(day);
+    var wrote = wroteEvening(day);
+    var stone = hasStone(day);
+    var wd = weekdayShort(day);
+    var when = monthDay(day);
+    var label = when || ("Day " + day);
+    var bits = [wd ? wd + " " + label : label];
+    if (fruit) bits.push(fruit[1]);
+    if (wrote) bits.push("what you wrote");
+    if (stone) bits.push("a stone");
+    var btn = el("button", {
+      type: "button",
+      class: "lived-day",
+      "aria-label": "Sit with " + bits.join(", ")
+    });
+    if (wd) btn.appendChild(el("span", { class: "wd" }, wd));
+    btn.appendChild(el("span", { class: "when" }, label));
+    if (fruit) {
+      btn.appendChild(el("span", { class: "fruit-disc swatch-" + fruit[0], "aria-hidden": "true" }));
+      btn.appendChild(el("span", { class: "fruit-name" }, fruit[1]));
+    }
+    if (wrote || stone) {
+      var marks = el("span", { class: "lived-marks", "aria-hidden": "true" });
+      if (wrote) marks.appendChild(el("span", { class: "wrote-dot" }));
+      if (stone) marks.appendChild(el("span", { class: "stone-mark" }));
+      btn.appendChild(marks);
+    }
+    btn.addEventListener("click", function () {
+      state.sittingDay = day;
+      state.view = wrote ? "evening" : "morning";
+      save();
+      render();
+      window.scrollTo(0, 0);
+    });
+    return btn;
+  }
+
+  function renderSeason() {
+    var main = document.getElementById("main");
+    main.innerHTML = "";
+    document.getElementById("eyebrow").textContent = "The whole season";
+    document.getElementById("title").textContent = "Season";
+    var days = livedDays();
+    if (!days.length) {
+      main.appendChild(el("p", { class: "gather-empty" }, "As you move through these ninety days, this page will gather what you practiced, what you wrote at evening, and the stones you set down."));
+      return;
+    }
+    main.appendChild(el("p", { class: "gather-note" }, "A wash of color for the fruit you chose, a dot for what you wrote, and a stone for what you set down."));
+    var notice = noticingLine();
+    if (notice) main.appendChild(el("p", { class: "noticed" }, notice));
+    var groups = [];
+    days.forEach(function (day) {
+      var start = weekStartFor(day);
+      if (!groups.length || groups[groups.length - 1].start !== start) groups.push({ start: start, days: [] });
+      groups[groups.length - 1].days.push(day);
+    });
+    groups.forEach(function (group) {
+      var len = weekLen(group.start);
+      var end = group.start + len - 1;
+      var section = el("section", { class: "season-week" });
+      section.appendChild(el("p", { class: "kicker" }, "Days " + group.start + "\u2013" + end));
+      var fromDate = monthDay(group.start);
+      var toDate = monthDay(end);
+      if (fromDate && toDate) section.appendChild(el("p", { class: "season-range" }, fromDate + " \u2013 " + toDate));
+      var row = el("div", { class: "lived-row" });
+      group.days.forEach(function (day) { row.appendChild(livedDayButton(day)); });
+      section.appendChild(row);
+      main.appendChild(section);
+    });
+  }
+
+  function render() {
+    botanicals(state.view);
+    document.querySelectorAll("nav button").forEach(function (btn) {
+      if (btn.getAttribute("data-view") === state.view) btn.setAttribute("aria-current", "page");
+      else btn.removeAttribute("aria-current");
+    });
+    if (state.view === "morning") renderMorning();
+    else if (state.view === "evening") renderEvening();
+    else if (state.view === "week") renderWeek();
+    else if (state.view === "season") renderSeason();
+    else if (state.view === "stones") renderStones();
+    else if (state.view === "review") renderReview();
+    else renderHome();
+    var titles = {
+      home: "ABIDE",
+      morning: "ABIDE · Morning",
+      evening: "ABIDE · Evening",
+      week: "ABIDE · Week",
+      season: "ABIDE · Season",
+      stones: "ABIDE · Stones",
+      review: "ABIDE · Review"
+    };
+    document.title = titles[state.view] || "ABIDE";
+  }
+
+  document.querySelector("nav").addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    state.view = btn.getAttribute("data-view");
+    save();
+    render();
+    window.scrollTo(0, 0);
+  });
+
+  render();
+  setInterval(paintEncourage, 60000);
+})();
+</script>
+</body>
+</html>
